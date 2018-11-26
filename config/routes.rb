@@ -12,8 +12,6 @@ Rails.application.routes.draw do
         sessions: "users/sessions"
             }
 
-  resources :users, only: :show
-
   resources :hotel_reviews
 
   resources :hotels do
@@ -22,5 +20,8 @@ Rails.application.routes.draw do
   resources :comments do
     resources :comments
   end
-
+  resources :users, only: [:show, :index]
+  resources :personal_messages, only: [:new, :create]
+  resources :conversations, only: [:index, :show]
+  mount ActionCable.server => '/cable'
 end

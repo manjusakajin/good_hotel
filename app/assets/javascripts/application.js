@@ -13,13 +13,14 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
+//= require cable
 //= require bootstrap
 //= require cloudinary
 //= require social-share-button
-//= require_tree .
 //= require jquery.raty
 //= require ratyrate
 //= require turbolinks
+//= require_tree .
 
 function handleStar(i) {
   var j,k;
