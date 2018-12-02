@@ -4,9 +4,10 @@ class HotelsController < ApplicationController
 
   def index
     if params[:term]
-      @hotels = Hotel.search_by_hotel_name(params[:term]).page(params[:page]).per Settings.paginate.hotels
+      @hotels = Hotel.search_by_hotel_name(params[:term]).page(params[:page1]).per Settings.paginate.hotels
+      @hotels2 = Hotel.search_by_hotel_address(params[:term]).page(params[:page2]).per Settings.paginate.hotels
       @keyword = params[:term]
-    elsif params[:commit] == "Filter"
+    elsif params[:commit] == "フィルタ"
       @hotels = Hotel.filter_by_service(params).page(params[:page]).per Settings.paginate.hotels
     else
       @hotels = Hotel.all.page(params[:page]).per Settings.paginate.hotels
@@ -63,6 +64,11 @@ class HotelsController < ApplicationController
     end
     @comments = @hotel.comments.order(:created_at).page(params[:page]).per(5)
     @pictures = @hotel.hotel_pictures
+    if params[:conversation_id]
+      @conversation = Conversation.find_by(id: params[:conversation_id])
+      redirect_to root_path unless @conversation && @conversation.participates?(current_user)
+      @personal_message = PersonalMessage.new
+    end
   end
 
   def edit; end

@@ -1,9 +1,13 @@
 class Hotel < ApplicationRecord
   include PgSearch
-  pg_search_scope :search_by_hotel_name, against: [:name, :address],
+  pg_search_scope :search_by_hotel_name, against: [:name],
+    using: {tsearch: {dictionary: 'english', prefix: true, any_word: true}}
+  pg_search_scope :search_by_hotel_address, against: [:address],
     using: {tsearch: {dictionary: 'english', prefix: true, any_word: true}}
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :hotel_pictures
+  has_many :conversations
+
   accepts_nested_attributes_for :hotel_pictures
   attr_accessor :hotel_pictures_cache, :remove_hotel_pictures
   ratyrate_rateable "quality"

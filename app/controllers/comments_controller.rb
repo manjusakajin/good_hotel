@@ -18,19 +18,7 @@ class CommentsController < ApplicationController
       redirect_to hotel_url(hotel_id)
     else
       @comment = @commentable.comments.new comment_params
-      if @comment.save
-        channel = "comments_#{hotel_id}_channel"
-        comment_id = params[:comment_id] if params[:comment_id]
-        ActionCable.server.broadcast channel,
-          comment: render_to_string(partial: "comments/comment",
-            locals: {comment: @comment}),
-          comment_other: render_to_string(partial: "comments/comment_other",
-            locals: {comment: @comment}),
-          user: @comment.user_id,
-          type: @comment.commentable_type,
-          comment_id: comment_id
-        head :ok
-      else
+      if !@comment.save
         flash[:danger] = t "error_create_comment"
         redirect_to hotel_url(hotel_id)
       end

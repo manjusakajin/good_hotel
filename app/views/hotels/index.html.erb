@@ -1,11 +1,4 @@
 <div class="row">
-    <div class="title">
-        <% if @keyword %>
-            <h1>検索結果</h1>
-        <% end %>
-    </div>
-</div>
-<div class="row">
     <div class="col-sm-3 sidebar">
         <div class="row">
             <div>
@@ -39,10 +32,16 @@
             </div>
         </div>
     </div>
+    <% if @keyword && @hotels.present? %>
+        <h2 class="text-center"><span>Hotels whose name likes</span><span style="color: green"> "<%= @keyword %>"</span></h2>
+    <% end %>
     <div class="col-sm-8 info" >
+        <% if @keyword && @hotels.blank? && @hotels2.blank? %>
+            <h2 class="text-center"><span>No result for </span><span style="color: green"> "<%= @keyword %>"</span></h2>
+        <% end %>
         <div class="row">
             <ul class="pager">
-                <%= paginate @hotels, params: { star: params[:star], commit: 'Filter' } %>
+                <%= paginate @hotels, :theme => 'twitter-bootstrap', params: { star: params[:star], commit: 'フィルター' } %>
             </ul>
         </div>
         <% @hotels.each do |hotel| %>
@@ -73,8 +72,47 @@
         <% end %>
         <div class="row">
             <ul class="pager">
-                <%= paginate @hotels, params: { star: params[:star], commit: 'Filter' } %>
+                <%= paginate @hotels, :theme => 'twitter-bootstrap', params: { star: params[:star], commit: 'フィルター' } %>
             </ul>
         </div>
     </div>
+    <div class="col-sm-3 sidebar">
+    </div>
+    <% if @keyword && @hotels2.present? %>
+
+        <div class="col-sm-8 info" >
+            <h2 class="text-center"><span>Hotels whose adress likes</span><span style="color: green"> "<%= @keyword %>"</span></h2>
+            <div class="row">
+                <ul class="pager">
+                    <%= paginate @hotels2, :theme => 'twitter-bootstrap', params: { star: params[:star], commit: 'フィルタ' } %>
+                </ul>
+            </div>
+            <% @hotels2.each do |hotel| %>
+                <div class="row well hotel">
+                    <div class="col-md-7 abt-left">
+                        <%= image_tag hotel.hotel_pictures.first.picture.url, alt: hotel.name, class:"img-bn" %>
+                    </div>
+                    <div class="col-sm-5 hotel-information">
+                        <h4><%= link_to hotel.name, hotel_path(hotel.id) %></h4>
+                        <p><%= hotel.address %></p>
+                        <p><%= link_to "詳細を見る", hotel_path(hotel.id) %></p>
+                        <% if hotel.average("quality") %>
+                        <div class="rating-block">
+                          <h4>
+                            レーティング: <span style="color: red;"><bold><%= hotel.average("quality").avg.round(1) %></bold></span>
+                            (<%= hotel.rates("quality").count %> 回)
+                          </h4>
+                        </div>
+                        <% end %>
+                    </div>
+                </div>
+            <% end %>
+            <div class="row">
+                <ul class="pager">
+                    <%= paginate @hotels2, :theme => 'twitter-bootstrap', params: { star: params[:star], commit: 'フィルター' } %>
+                </ul>
+            </div>
+        </div>
+    <% end %>
+
 </div>

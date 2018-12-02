@@ -1,10 +1,10 @@
 <li class="clearfix" id="comment_overall<%= comment.id %>">
   <div class="row">
-    <div class="col-md-1">
-      <% if user_signed_in? && comment.user != current_user %>
-        <%= link_to image_tag('chat.jpg', class: "chat1-icon"), new_personal_message_path(receiver_id: comment.user) %>
-      <% end %>
+    <% if user_signed_in? && comment.user != current_user %>
+      <div class="col-md-1">
+        <%= link_to image_tag('chat.jpg', class: "chat1-icon"), new_personal_message_path(receiver_id: comment.user), , hotel_id: @hotel.id %>
     </div>
+    <% end %>
     <div class="col-md-1">
       <% if comment.user.avatar? %>
         <%= image_tag(comment.user.avatar_url, class: "avatar")%>

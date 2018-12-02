@@ -18,7 +18,9 @@ HotelPicture.create!(hotel_id: 22, picture: '000')
   User.create!(name:  name,
                email: email,
                password: password,
-               password_confirmation: password)
+               password_confirmation: password,
+               picture: "avatar/#{rand(7)}.jpg"
+              )
 end
 users = User.order(:created_at).take(6)
 

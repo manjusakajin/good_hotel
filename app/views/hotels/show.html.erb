@@ -209,27 +209,29 @@
 </div>
 
 <div class="row">
-    <div class="well comment">
+
         <div class="row">
             <div class="comment-content">
                 <ul class="comment-errors"></ul>
                 <div class="blog-comment">
                   <% if user_signed_in? %>
                   <div class="pb-cmnt-container">
-                    <%= form_for :comment,
-                      url: hotel_comments_path(:hotel_id => @hotel.id),
-                      :html => {:class => "form-inline"}, remote: true do |f| %>
-                      <%= f.text_area :body, placeholder: "コメントを追加する",
-                        class: "box-clear" %><br/>
-                      <%= f.hidden_field :user_id, value: current_user.id, id: "user_hotel" %>
-                      <%= f.hidden_field :hotel_id, value: @hotel.id %>
-                      <%= f.submit "コメント追加",
-                        class: "btn btn-primary pull-right", data: {send: "hotel"} %>
-                    <% end %>
+                    <div class="well comment">
+                      <%= form_for :comment,
+                        url: hotel_comments_path(:hotel_id => @hotel.id),
+                        :html => {:class => "form-inline"}, remote: true do |f| %>
+                        <%= f.text_area :body, placeholder: "コメントを追加する",
+                          class: "box-clear" %><br/>
+                        <%= f.hidden_field :user_id, value: current_user.id, id: "user_hotel" %>
+                        <%= f.hidden_field :hotel_id, value: @hotel.id %>
+                        <%= f.submit "コメント追加",
+                          class: "btn btn-primary pull-right", data: {send: "hotel"} %>
+                      <% end %>
+                    </div>
                   </div>
                   <hr/>
                 <% else %>
-                  <p>コメントのために<%= link_to "ログイン", new_user_session_path %>下さい</p>
+                  <h3 style="text-align: center;">コメントのために<%= link_to "ログイン", new_user_session_path %>下さい</h3>
                   <%= form_for :comment,
                       url: hotel_comments_path(:hotel_id => @hotel.id),
                       :html => {:class => "form-inline"}, remote: true do |f| %>
@@ -243,10 +245,13 @@
                     </p>
                   </li>
                 </ul>
-								<%= paginate @comments, :theme => "twitter-bootstrap-3"%>
+								<div class="text-center"><%= paginate @comments, :theme => "twitter-bootstrap-3"%></div>
                 </div>
             </div>
         </div>
-    </div>
+
 </div>
 <div id="comment-modal" class="modal fade"></div>
+<% if @conversation %>
+  <%= render "chat" %>
+<% end %>

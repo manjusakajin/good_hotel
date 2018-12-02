@@ -2,19 +2,32 @@ class PersonalMessagesController < ApplicationController
   before_action :find_conversation!
 
   def new
-    redirect_to conversation_path(@conversation) and return if @conversation
-    @personal_message = current_user.personal_messages.build
+    if @conversation
+      redirect_to hotel_path(:id => @conversation.hotel.id, :conversation_id => @conversation.id)
+      return
+    else
+      @conversation ||= Conversation.create(author_id: current_user.id,
+                                          receiver_id: @receiver.id, hotel_id: params[:hotel_id])
+      @personal_message = current_user.personal_messages.build(:body => "Hello")
+      @personal_message.conversation_id = @conversation.id
+      @personal_message.save!
+      #   @personal_message.conversation.touch
+      #   NotificationBroadcastJob.perform(@personal_message, current_user.id)
+      # end
+      flash[:success] = "Your message was sent!"
+      redirect_to hotel_path(:id => @conversation.hotel.id, :conversation_id => @conversation.id)
+    end
   end
 
   def create
     @conversation ||= Conversation.create(author_id: current_user.id,
-                                          receiver_id: @receiver.id)
+                                          receiver_id: @receiver.id, hotel_id: params[:id])
     @personal_message = current_user.personal_messages.build(personal_message_params)
     @personal_message.conversation_id = @conversation.id
     @personal_message.save!
 
     flash[:success] = "Your message was sent!"
-    redirect_to conversation_path(@conversation)
+    redirect_to hotel_path(:id => @conversation.hotel.id, :conversation_id => @conversation.id)
   end
 
   private

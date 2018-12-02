@@ -4,6 +4,8 @@ class CreateConversations < ActiveRecord::Migration[5.0]
       t.integer :author_id
       t.integer :receiver_id
 
+      t.integer :hotel_id
+
       t.timestamps
     end
     add_index :conversations, :author_id

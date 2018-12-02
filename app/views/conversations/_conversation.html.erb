@@ -3,6 +3,13 @@
   <br>
   <em><%= conversation.personal_messages.last.body.truncate(50) %></em>
   <br>
+<<<<<<< HEAD
   <%= link_to 'View conversation', conversation_path(conversation) %>
   <hr>
 </div>
+=======
+  <%= link_to 'View conversation', hotel_path(:id => conversation.hotel.id, :conversation_id => conversation.id) %>
+
+  <hr>
+</div>
+>>>>>>> Add realtime chat
