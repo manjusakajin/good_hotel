@@ -1,10 +1,5 @@
 <li class="clearfix" id="comment_overall<%= comment.id %>">
   <div class="row">
-    <% if user_signed_in? && comment.user != current_user %>
-      <div class="col-md-1">
-        <%= link_to image_tag('chat.jpg', class: "chat1-icon"), new_personal_message_path(receiver_id: comment.user), , hotel_id: @hotel.id %>
-    </div>
-    <% end %>
     <div class="col-md-1">
       <% if comment.user.avatar? %>
         <%= image_tag(comment.user.avatar_url, class: "avatar")%>
@@ -22,6 +17,9 @@
             <%= t "updated_at" %> <%= comment.updated_at.in_time_zone("Hanoi").strftime("%d/%m/%Y %H:%M") %></span>
           <% end %>
           <%= t "by" %> <%= comment.user.name %>
+          <% if user_signed_in? && comment.user != current_user %>
+            <%= link_to image_tag('chat.jpg', class: "chat1-icon"), new_personal_message_path(receiver_id: comment.user), , hotel_id: @hotel.id %>
+          <% end %>
         </p>
         <% if comment.commentable_type == "Hotel" %>
           <i class="pull-right">
@@ -57,3 +55,10 @@
   </div>
 </li>
 
+<style>
+  .chat1-icon {
+    width: 8%;
+    height: 0%;
+    margin-left: -30px;
+  }
+</style>
