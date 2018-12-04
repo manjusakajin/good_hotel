@@ -1,6 +1,6 @@
 <li class="clearfix" id="comment_overall<%= comment.id %>">
   <div class="row">
-    <div class="col-md-1">
+    <div class="avatar-icon col-md-1">
       <% if comment.user.avatar? %>
         <%= image_tag(comment.user.avatar_url, class: "avatar")%>
       <% else %>
@@ -8,7 +8,7 @@
         <%= comment.user.name %>
       <% end %>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-10">
       <div class="post-comments">
         <p class="meta"><span id="comment_time<%= comment.id %>">
           <% if (comment.created_at == comment.updated_at) %>
@@ -60,5 +60,12 @@
     width: 8%;
     height: 0%;
     margin-left: -30px;
+  }
+  .avatar-icon {
+    padding-left: 75px;
+  }
+  .avatar {
+    width: 75px;
+    height: 70px;
   }
 </style>
